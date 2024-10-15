@@ -38,6 +38,13 @@ contract.
 pnpm hardhat deploy-hero --network bsc-testnet --sidekick--addr 0x...
 ```
 
+We can send a message from the target network contract to the other. Note that
+the network is consist with the deployed contract.
+
+```sh
+pnpm hardhat message-hero --network sapphire-testnet --sidekick--addr 0x
+```
+
 Finally, we can verify that OPL is able to pass a message cross chains.
 
 ```sh

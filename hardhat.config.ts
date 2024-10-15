@@ -71,15 +71,12 @@ task('verify-hero')
   .setAction(async (args, hre) => {
     const ethers = hre.ethers;
     const signer = await ethers.provider.getSigner();
-    // const block = await ethers.provider.getBlockNumber();
+    const block = await ethers.provider.getBlockNumber();
     const Hero = await ethers.getContractFactory('Hero');
     const hero = Hero.connect(signer).attach(args.heroAddr);
-    // const events = await hero.queryFilter('MessageReceived', block - 1000, 'latest');
-    const block = 39266185
-    const events = (await hero.queryFilter('MessageReceived', block - 1000, block + 5)) as EventLog[];
+    const events = (await hero.queryFilter('MessageReceived', block - 25, block + 25)) as EventLog[];
     assert(events.length == 1);
-    console.log(hero.interface.parseLog(events[0])?.args[0])
-    assert(hero.interface.parseLog(events[0])?.args[0] == 'hello from sapp');
+    assert(ethers.decodeBytes32String(hero.interface.parseLog(events[0])?.args[0]) == 'hello from sapp');
   });
 
 task('verify-sidekick')
@@ -88,11 +85,9 @@ task('verify-sidekick')
     const ethers = hre.ethers;
     const signer = await ethers.provider.getSigner();
     const block = await ethers.provider.getBlockNumber();
-    const Sidekick = await ethers.getContractFactory('Sidekick');
-    const sidekick = Sidekick.connect(signer).attach(args.sidekickAddr);
-    const events = await sidekick.queryFilter('MessageReceived', block - 1000, 'latest');
-    assert(events.length == 1);
-    assert(events[0].data == 'hello from bsc');
+    const sidekick = await ethers.getContractAt('Sidekick', args.sidekickAddr, signer);
+    const events = await sidekick.queryFilter('MessageReceived', block - 25, block + 25) as EventLog[];
+    assert(ethers.decodeBytes32String(sidekick.interface.parseLog(events[0])?.args[0]) == 'hello from bsc');
   });
 
 const accounts = process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [];
@@ -108,10 +103,8 @@ const config: HardhatUserConfig = {
     'sapphire-testnet': {
       // This is Testnet! If you want Mainnet, add a new network config item.
       url: "https://testnet.sapphire.oasis.io",
-      accounts: process.env.PRIVATE_KEY
-        ? [process.env.PRIVATE_KEY]
-        : [],
-      chainId: 0x5aff,
+      accounts,
+      chainId: 23295,
     },
   },
 };
