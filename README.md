@@ -35,11 +35,29 @@ Let's use the address of the deployed contract as a param to deploy the second
 contract.
 
 ```sh
-pnpm hardhat deploy-hero --network bsc-testnet --sidekick--addr 0x...
+pnpm hardhat deploy-hero --network bsc-testnet --sidekick--addr <deployed address from above>
 ```
 
-Finally, we can verify that OPL is able to pass a message cross chains.
+We can send a message from a target network contract to our deployed contract
+on the other network. The network used is that of the deployed contract.
+
+Message Hero from Sidekick (sapphire-testnet > bsc-testnet)
 
 ```sh
-pnpm hardhat verify-hero --network bsc-testnet --hero-addr 0x
+pnpm hardhat message-hero --network sapphire-testnet --sidekick--addr <deployed address from above>
+```
+
+Message Sidekick from Hero (bsc-testnet > sapphire-testnet)
+
+```sh
+pnpm hardhat message-sidekick --network bsc-testnet --hero--addr <deployed address from above>
+```
+
+Finally, we can verify that OPL supports  passing a message cross chains.
+This can take a few minutes on testnet.
+
+***Note: you need to specify an archival node RPC endpoint***
+
+```sh
+pnpm hardhat verify-hero --network bsc-testnet --hero-addr <deployed address from above>
 ```
