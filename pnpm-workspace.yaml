@@ -1,0 +1,5 @@
+packages:
+  - examples/opl-hero
+  - examples/opl-ping
+  - examples/celer-ping
+  - examples/router-pingpong
