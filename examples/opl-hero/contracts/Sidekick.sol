@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.9;
 
 import {Enclave, autoswitch, Result} from "@oasisprotocol/sapphire-contracts/contracts/OPL.sol";
