@@ -24,7 +24,7 @@ You will need to obtain TEST tokens on both networks.
 
 ## Running the Example
 
-The see the full example in action, run
+To see the full example in action, run
 
 ```sh
 pnpm hardhat full-pingpong

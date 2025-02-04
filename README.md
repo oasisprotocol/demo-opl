@@ -7,6 +7,7 @@ to integrate privacy with non Sapphire chains.
 - [OPL Ping](./examples/opl-ping/README.md)
 - [Celer Ping](./examples/celer-ping/README.md)
 - [Router Pingpong](./examples/router-pingpong/README.md)
+- [Hyperlane PingPong](./examples/hyperlane/README.md)
 
 ## License
 
