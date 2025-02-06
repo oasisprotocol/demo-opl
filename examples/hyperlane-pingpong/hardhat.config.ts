@@ -22,7 +22,7 @@ const config: HardhatUserConfig = {
       chainId: 11155111,
       accounts,
     },
-    'arbitrumsepolia': {
+    'arbitrum-sepolia': {
       url: 'https://arbitrum-sepolia-rpc.publicnode.com',
       chainId: 421614,
       accounts,

@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
+// copied from https://github.com/hyperlane-xyz/hyperlane-monorepo/blob/main/typescript/helloworld/contracts/HelloWorld.sol
+// and modified it.
 pragma solidity ^0.8.13;
 
 // ============ External Imports ============
@@ -9,7 +11,7 @@ import {StandardHookMetadata} from "@hyperlane-xyz/core/contracts/hooks/libs/Sta
  * @title The Hello World App
  * @dev You can use this simple app as a starting point for your own application.
  */
-contract PingPong is Router {
+contract Pong is Router {
     // A generous upper bound on the amount of gas to use in the handle
     // function when a message is processed. Used for paying for gas.
     uint256 public constant HANDLE_GAS_AMOUNT = 50_000;
@@ -27,12 +29,12 @@ contract PingPong is Router {
     mapping(uint32 => uint256) public receivedFrom;
 
     // ============ Events ============
-    event SentPingPong(
+    event SentPing(
         uint32 indexed origin,
         uint32 indexed destination,
         string message
     );
-    event ReceivedPingPong(
+    event ReceivedPing(
         uint32 indexed origin,
         uint32 indexed destination,
         bytes32 sender,
@@ -57,14 +59,14 @@ contract PingPong is Router {
      * @param _destinationDomain The destination domain to send the message to.
      * @param _message The message to send.
      */
-    function sendPingPong(
+    function sendPing(
         uint32 _destinationDomain,
         string calldata _message
     ) public payable {
         sent += 1;
         sentTo[_destinationDomain] += 1;
         _dispatch(_destinationDomain, bytes(_message));
-        emit SentPingPong(
+        emit SentPing(
             mailbox.localDomain(),
             _destinationDomain,
             _message
@@ -97,14 +99,14 @@ contract PingPong is Router {
     ) internal override {
         received += 1;
         receivedFrom[_origin] += 1;
-        emit ReceivedPingPong(
+        emit ReceivedPing(
             _origin,
             mailbox.localDomain(),
             _sender,
             string(_message)
         );
-        // send return message
-        sendPingPong(
+         // send return message
+        sendPing(
             _origin,
             string(_message)
         );

@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
+// copied from https://github.com/hyperlane-xyz/hyperlane-monorepo/blob/main/typescript/helloworld/contracts/HelloWorld.sol
+// and modified it.
 pragma solidity ^0.8.13;
 
 // ============ External Imports ============
@@ -10,7 +12,6 @@ import {StandardHookMetadata} from "@hyperlane-xyz/core/contracts/hooks/libs/Sta
  * @dev You can use this simple app as a starting point for your own application.
  */
 contract Ping is Router {
-// contract Ping {
     // A generous upper bound on the amount of gas to use in the handle
     // function when a message is processed. Used for paying for gas.
     uint256 public constant HANDLE_GAS_AMOUNT = 50_000;

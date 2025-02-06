@@ -1,9 +1,9 @@
 import { task, subtask } from "hardhat/config";
 import { assert } from "console";
 
-task("full-ping")
+task("full-pingpong")
   .addOptionalParam("message", "The message that should be bridged", "Hello OPL")
-  .addOptionalParam("hostNetwork", "Network to deploy the Host contract on", "arbitrumsepolia")
+  .addOptionalParam("hostNetwork", "Network to deploy the Host contract on", "arbitrum-sepolia")
   .addOptionalParam("hostChainId", "Network to send ping from", "421614")
   .addOptionalParam("enclaveNetwork", "Network to deploy the Enclave contract on", "sapphire-testnet")
   .addOptionalParam("enclaveChainId", "Network to send ping to", "23295")
@@ -44,23 +44,17 @@ task("full-ping")
       sourceNetwork: hostNetwork,
       destChainId: enclaveChainId
     });
+    // verify ping on sapphire
     console.log("===========================");
     await hre.run("verify-ping", {
       contractAddr: pongAddr,
       message,
       receiveNetwork: enclaveNetwork
     });
-    // seting from sapphire back to host
-    console.log("===========================");
-    await hre.run("send-pong", {
-      pongAddr,
-      message,
-      sourceNetwork: enclaveNetwork,
-      destChainId: hostChainId
-    });
+    // verify ping was send back
     console.log("===========================");
     await hre.run("verify-ping", {
-      contractAddr: pongAddr,
+      contractAddr: pingAddr,
       message,
       receiveNetwork: hostNetwork
     });
@@ -69,7 +63,7 @@ task("full-ping")
 subtask('deploy-ism')
   .addParam("trustedRelayer", "The address the relayer is run on")
   .addOptionalParam("mailboxAddr", "The mailbox address of the network you deploy the ISM on", "0x598facE78a4302f11E3de0bee1894Da0b2Cb71F8") // arb sepolia
-  .addOptionalParam("hostNetwork", "Network to deploy the ping contract on", "arbitrumsepolia")
+  .addOptionalParam("hostNetwork", "Network to deploy the ping contract on", "arbitrum-sepolia")
   .setAction(async ({trustedRelayer, mailboxAddr, hostNetwork}, hre) => {
     await hre.switchNetwork(hostNetwork);
     console.log(`Deploying ISM on ${hre.network.name}...`);
@@ -83,7 +77,7 @@ subtask('deploy-ism')
 })
 
 task('deploy-pingpong')
-  .addOptionalParam("pingNetwork", "Network to deploy the Ping contract on", "arbitrumsepolia")
+  .addOptionalParam("pingNetwork", "Network to deploy the Ping contract on", "arbitrum-sepolia")
   .addOptionalParam("pingMailbox", "Messagebox contract address", "0x598facE78a4302f11E3de0bee1894Da0b2Cb71F8")
   .addOptionalParam("pongNetwork", "Network to deploy the Pong contract on", "sapphire-testnet")
   .addOptionalParam("pongMailbox", "Messagebox contract address", "0x8cd4D8103B5962dCA62E4c05C28F78D7Ae5147aF")
@@ -106,7 +100,7 @@ task('deploy-pingpong')
 });
 
 subtask("deployPing")
-  .addParam("pingNetwork", "Network to deploy the Ping contract on", "arbitrumsepolia")
+  .addParam("pingNetwork", "Network to deploy the Ping contract on", "arbitrum-sepolia")
   .addOptionalParam("mailbox", "Mailbox contract address", "0x598facE78a4302f11E3de0bee1894Da0b2Cb71F8")
   .addOptionalParam("ismAddr", "Custom ISM for the contract", "0x983F1219F9828D24CC263d7Ee17991C25AabAEb3")
   .setAction(async ({pingNetwork, mailbox, ismAddr}, hre) => {
@@ -118,8 +112,6 @@ subtask("deployPing")
     console.log(`Ping deployed at: ${pingAddr.target}`);
     // set custom ISM
     console.log(`Set custom ISM to: ${ismAddr}`);
-    // const signer = await hre.ethers.provider.getSigner();
-    // const ping = await hre.ethers.getContractAt("Ping", pingAddr, signer);
     await ping.setInterchainSecurityModule(ismAddr);
     
     return pingAddr.target;
@@ -132,7 +124,7 @@ subtask("deployPong")
   .setAction(async ({pongNetwork, mailbox, ismAddr}, hre) => {
     await hre.switchNetwork(pongNetwork);
     console.log(`Deploying on ${hre.network.name}...`);
-    const Pong = await hre.ethers.getContractFactory("Ping");
+    const Pong = await hre.ethers.getContractFactory("Pong");
     const pong = await Pong.deploy(mailbox);
     const pongAddr = await pong.waitForDeployment();
     console.log(`Pong deployed at: ${pongAddr.target}`);
@@ -142,7 +134,7 @@ subtask("deployPong")
 task("enroll-routers")
   .addParam("pingAddr", "Address of the Ping contract")
   .addParam("pongAddr", "Address of the Pong contract")
-  .addOptionalParam("hostNetwork", "Network to deploy the ping contract on", "arbitrumsepolia")
+  .addOptionalParam("hostNetwork", "Network to deploy the ping contract on", "arbitrum-sepolia")
   .addOptionalParam("hostChainId", "Network ID of the ping contract on", "421614")
   .addOptionalParam("enclaveNetwork", "Network to deploy the pong contract on", "sapphire-testnet")
   .addOptionalParam("enclaveChainId", "Network ID of the pong contract on", "23295")
@@ -183,7 +175,7 @@ task("enroll")
 task("send-ping")
   .addParam("pingAddr", "Address of the Ping contract")
   .addOptionalParam("message", "The message that should be bridged", "Hello from host")
-  .addOptionalParam("sourceNetwork", "Network to send the message from", "arbitrumsepolia")
+  .addOptionalParam("sourceNetwork", "Network to send the message from", "arbitrum-sepolia")
   .addOptionalParam("destChainId", "Network to send ping to", "23295")
   .setAction(async ({pingAddr, message, sourceNetwork, destChainId}, hre) => {
     await hre.switchNetwork(sourceNetwork);
@@ -191,7 +183,7 @@ task("send-ping")
     const signer = await hre.ethers.provider.getSigner();
     const ping = await hre.ethers.getContractAt("Ping", pingAddr, signer);
 
-    // get mailbox for pingpong
+    // get mailbox for ping
     const mailboxAddr = await ping.mailbox();
     console.log(`Mailbox address: ${mailboxAddr}`);
     //calc fee
@@ -222,7 +214,7 @@ task("send-pong")
     await hre.switchNetwork(sourceNetwork);
     console.log(`Sending message on ${hre.network.name}...`);
     const signer = await hre.ethers.provider.getSigner();
-    const pong = await hre.ethers.getContractAt("Ping", pongAddr, signer);
+    const pong = await hre.ethers.getContractAt("Pong", pongAddr, signer);
 
     const mailbox = await pong.mailbox();
     console.log(`Mailbox address: ${mailbox}`);
@@ -268,13 +260,18 @@ task('verify-ping')
         current = (current + 1) % spinner.length;
     }, 150);
 
+    let contract;
     const signer = await hre.ethers.provider.getSigner();
-    const pong = await hre.ethers.getContractAt("Ping", contractAddr, signer);
+    if (hre.network.name = "sapphire-testnet") {
+      contract = await hre.ethers.getContractAt("Pong", contractAddr, signer);
+    } else {
+      contract = await hre.ethers.getContractAt("Ping", contractAddr, signer);
+    }
 
     do {
       const block = await hre.ethers.provider.getBlockNumber();
 
-      events = await pong.queryFilter('ReceivedPing', block - 10, 'latest');
+      events = await contract.queryFilter('ReceivedPing', block - 10, 'latest');
       if (events.length === 0) {
         await new Promise(resolve => setTimeout(resolve, 60 * 1000));
       }
@@ -285,7 +282,7 @@ task('verify-ping')
     process.stdout.write(`\r`); 
     process.stdout.clearLine(0);
 
-    const parsedEvent = pong.interface.parseLog(events[0]);
+    const parsedEvent = contract.interface.parseLog(events[0]);
     // console.log(parsedEvent);
     const decoded = parsedEvent?.args?.message;
     console.log(`Message received with: ${decoded}`);
