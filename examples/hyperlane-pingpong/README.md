@@ -1,4 +1,4 @@
-# PingPong via Hyperlane Protocol
+# Ping Pong via Hyperlane Protocol
 
 This example lets you send a message via [Hyperlane Protocol]
 
@@ -43,7 +43,7 @@ You will need to obtain TEST/ETH tokens on both networks (Arbitrum Sepolia, Sapp
 To see the full example in action, run
 
 ```sh
-pnpm hardhat full-ping
+pnpm hardhat full-pingpong
 ```
 
 This will do the following:
@@ -57,8 +57,6 @@ This will do the following:
 - Listen to the messege sent processed via the Mailbox on Arbitrum Sepolia
 
 If you want to run the steps one at a time, read the following chapters.
-
-[explorer]: https://testnet.routerscan.io/feePayer
 
 ### Deploy ISM Contract
 
@@ -82,7 +80,7 @@ pnpm hardhat deploy-pingpong
 Enroll the contracts as routers on the matching contract on the other network:
 
 ```sh
-pnpm hardhat enroll-routers --ping-addr <Ping contract address from Arbitrum Sepolia> --pong-addr <Ping contract address from Sapphire Testnet>
+pnpm hardhat enroll-routers --ping-addr <Ping contract address from Arbitrum Sepolia> --pong-addr <Pong contract address from Sapphire Testnet>
 ```
 
 ### Sending the Ping Message
@@ -98,5 +96,5 @@ pnpm hardhat send-ping --ping-addr <Ping contract address from Arbitrum Sepolia>
 Verifying that the ping message arrived on the enclave network (Sapphire-Testnet):
 
 ```sh
-pnpm hardhat verify-ping --conrtact-addr <Ping contract address from Sapphire Testnete>
+pnpm hardhat verify-ping --conrtact-addr <Pong contract address from Sapphire Testnete>
 ```
