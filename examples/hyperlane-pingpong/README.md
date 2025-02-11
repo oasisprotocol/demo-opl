@@ -4,11 +4,11 @@ This example lets you send a message via [Hyperlane Protocol]
 
 [Hyperlane Protocol]: https://docs.hyperlane.xyz/docs/intro
 
-## Prerequesits
+## Prerequisites
 
 To send messages to Sapphire Testnet the Hyperlane contracts need to be
 deployed. To deploy it yourself, check the Oasis [docs]. Or use the deployed
-contracts also used here in the example.
+contracts as in the example here.
 
 If you want to use the already deployed contracts, add the yaml files from
 `./config/` to your hyperlane config dir `~/.hyperlane/chains/sapphiretestnet/`
@@ -22,7 +22,7 @@ Additionally you need to run a relayer:
 
 ## Setup 
 
-Install the necessary NPM dependencies using `pnpm` or module manager of choice.
+Install the necessary NPM dependencies using `pnpm` or package manager of choice.
 
 ```sh
 pnpm install
@@ -75,7 +75,7 @@ Deploy the contracts on the host network (Arbitrum Sepolia) and the enclave netw
 pnpm hardhat deploy-pingpong
 ```
 
-### Enroll Routres
+### Enroll Routers
 
 Enroll the contracts as routers on the matching contract on the other network:
 
@@ -96,5 +96,5 @@ pnpm hardhat send-ping --ping-addr <Ping contract address from Arbitrum Sepolia>
 Verifying that the ping message arrived on the enclave network (Sapphire-Testnet):
 
 ```sh
-pnpm hardhat verify-ping --conrtact-addr <Pong contract address from Sapphire Testnete>
+pnpm hardhat verify-ping --conrtact-addr <Pong contract address from Sapphire Testnet>
 ```

@@ -163,12 +163,12 @@ task("enroll")
   .addOptionalParam("remoteId", "Network ID of remote router contract", "421614")
   .setAction(async ({contractAddr, remoteAddr, enrollNetwork, remoteId}, hre) => {
     await hre.switchNetwork(enrollNetwork);
-    console.log(`Enroll Remoute Router on ${hre.network.name}...`);
+    console.log(`Enroll Remote Router on ${hre.network.name}...`);
     const signer = await hre.ethers.provider.getSigner();
     const ping = await hre.ethers.getContractAt("Ping", contractAddr, signer);
     await ping.enrollRemoteRouter(remoteId, hre.ethers.zeroPadValue(remoteAddr, 32));
     const pongRouter = await ping.routers(remoteId);
-    console.log(`Remote router address for ${remoteId}: ${pongRouter}`);
+    console.log(`Remote Router address for ${remoteId}: ${pongRouter}`);
 })
 
 

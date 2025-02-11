@@ -6,7 +6,7 @@ This example lets you send a message via Router Protocol [CrossTalk]
 
 ## Setup 
 
-Install the necessary NPM dependencies using `pnpm` or module manager of choice.
+Install the necessary NPM dependencies using `pnpm` or package manager of choice.
 
 ```sh
 pnpm install
