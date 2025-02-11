@@ -8,7 +8,7 @@ task("full-pingpong")
   .addOptionalParam("enclaveNetwork", "Network to deploy the Enclave contract on", "sapphire-testnet")
   .addOptionalParam("enclaveChainId", "Network to send ping to", "23295")
   .addOptionalParam("pingMailbox", "Messagebox contract address", "0x598facE78a4302f11E3de0bee1894Da0b2Cb71F8") // arbitrum sepolia 
-  .addOptionalParam("pongMailbox", "Messagebox contract address", "0x8cd4D8103B5962dCA62E4c05C28F78D7Ae5147aF") // sapphire-testnet
+  .addOptionalParam("pongMailbox", "Messagebox contract address", "0x79d3ECb26619B968A68CE9337DfE016aeA471435") // sapphire-testnet
   .setAction(async ({message, hostNetwork, hostChainId, enclaveNetwork, enclaveChainId, pingMailbox, pongMailbox}, hre) => {
     // Ensure contracts are compiled before proceeding
     await hre.run('compile');
@@ -80,7 +80,7 @@ task('deploy-pingpong')
   .addOptionalParam("pingNetwork", "Network to deploy the Ping contract on", "arbitrum-sepolia")
   .addOptionalParam("pingMailbox", "Messagebox contract address", "0x598facE78a4302f11E3de0bee1894Da0b2Cb71F8")
   .addOptionalParam("pongNetwork", "Network to deploy the Pong contract on", "sapphire-testnet")
-  .addOptionalParam("pongMailbox", "Messagebox contract address", "0x8cd4D8103B5962dCA62E4c05C28F78D7Ae5147aF")
+  .addOptionalParam("pongMailbox", "Messagebox contract address", "0x79d3ECb26619B968A68CE9337DfE016aeA471435")
   .addOptionalParam("ismAddr", "Custom ISM for the contract", "0x983F1219F9828D24CC263d7Ee17991C25AabAEb3")
   .setAction(async ({pingNetwork, pingMailbox, pongNetwork, pongMailbox, ismAddr}, hre) => {
     console.log("Start deployment of PingPong...");
@@ -119,7 +119,7 @@ subtask("deployPing")
 
 subtask("deployPong")
   .addParam("pongNetwork", "Network to deploy the Pong contract on", "sapphire-testnet")
-  .addOptionalParam("mailbox", "Mailbox contract address", "0x8cd4D8103B5962dCA62E4c05C28F78D7Ae5147aF")
+  .addOptionalParam("mailbox", "Mailbox contract address", "0x79d3ECb26619B968A68CE9337DfE016aeA471435")
   .addParam("ismAddr", "Custom ISM for Hook for the contract", "0x0000000000000000000000000000000000000000")
   .setAction(async ({pongNetwork, mailbox, ismAddr}, hre) => {
     await hre.switchNetwork(pongNetwork);
