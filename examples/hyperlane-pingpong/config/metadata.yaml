@@ -1,6 +1,11 @@
 # yaml-language-server: $schema=../schema.json
+blockExplorers:
+  - apiUrl: https://explorer.oasis.io/testnet/sapphire
+    family: other
+    name: Oasis Explorer
+    url: https://explorer.oasis.io/testnet/sapphire
 chainId: 23295
-displayName: Sapphiretestnet
+displayName: Sapphire Testnet
 domainId: 23295
 isTestnet: true
 name: sapphiretestnet
