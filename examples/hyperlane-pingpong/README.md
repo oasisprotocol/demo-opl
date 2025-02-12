@@ -96,5 +96,5 @@ pnpm hardhat send-ping --ping-addr <Ping contract address from Arbitrum Sepolia>
 Verifying that the ping message arrived on the enclave network (Sapphire-Testnet):
 
 ```sh
-pnpm hardhat verify-ping --conrtact-addr <Pong contract address from Sapphire Testnet>
+pnpm hardhat verify-ping --contract-addr <Pong contract address from Sapphire Testnet>
 ```

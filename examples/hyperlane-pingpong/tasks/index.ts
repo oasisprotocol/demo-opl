@@ -51,7 +51,7 @@ task("full-pingpong")
       message,
       receiveNetwork: enclaveNetwork
     });
-    // verify ping was send back
+    // verify ping was sent back
     console.log("===========================");
     await hre.run("verify-ping", {
       contractAddr: pingAddr,
