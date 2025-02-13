@@ -256,7 +256,7 @@ task('verify-ping')
 
     // Spinner animation
     const interval = setInterval(() => {
-        process.stdout.write(`\rListing for event... ${spinner[current]}`);
+        process.stdout.write(`\rListening for event... ${spinner[current]}`);
         current = (current + 1) % spinner.length;
     }, 150);
 
@@ -271,7 +271,7 @@ task('verify-ping')
     do {
       const block = await hre.ethers.provider.getBlockNumber();
 
-      events = await contract.queryFilter('ReceivedPing', block - 10, 'latest');
+      events = await contract.queryFilter('ReceivedPing', block - 100, 'latest');
       if (events.length === 0) {
         await new Promise(resolve => setTimeout(resolve, 60 * 1000));
       }
