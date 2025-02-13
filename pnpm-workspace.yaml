@@ -3,3 +3,4 @@ packages:
   - examples/opl-ping
   - examples/celer-ping
   - examples/router-pingpong
+  - examples/hyperlane-pingpong

@@ -6,7 +6,7 @@ This example lets you send a message via Router Protocol [CrossTalk]
 
 ## Setup 
 
-Install the necessary NPM dependencies using `pnpm` or module manager of choice.
+Install the necessary NPM dependencies using `pnpm` or package manager of choice.
 
 ```sh
 pnpm install
@@ -24,7 +24,7 @@ You will need to obtain TEST tokens on both networks.
 
 ## Running the Example
 
-The see the full example in action, run
+To see the full example in action, run
 
 ```sh
 pnpm hardhat full-pingpong
